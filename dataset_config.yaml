@@ -1,0 +1,44 @@
+# MARVEL Dataset Processing Configuration
+
+datasets:
+  - molecule_name: "SO_33S16O"
+    transitions_file: "Re_ SO Transitions list/SO_33S16O_22HeStLy_SO_20260731_140742.txt"
+    segment_file: null
+    skip_lines: 1
+    num_qns: 5
+    output_pt_file: "parsed_graphs/SO_33S16O_graph.pt"
+
+  - molecule_name: "SO_34S16O"
+    transitions_file: "Re_ SO Transitions list/SO_34S16O_22HeStLy_SO_20260731_140742.txt"
+    segment_file: null
+    skip_lines: 1
+    num_qns: 5
+    output_pt_file: "parsed_graphs/SO_34S16O_graph.pt"
+
+  - molecule_name: "SO_36S16O"
+    transitions_file: "Re_ SO Transitions list/SO_36S16O_22HeStLy_SO_20260731_140742.txt"
+    segment_file: null
+    skip_lines: 1
+    num_qns: 5
+    output_pt_file: "parsed_graphs/SO_36S16O_graph.pt"
+
+  - molecule_name: "CO2_828"
+    transitions_file: "CO2/transitions_828.txt"
+    segment_file: "CO2/segment_master.txt"
+    skip_lines: 0
+    num_qns: 7
+    output_pt_file: "parsed_graphs/CO2_828_graph.pt"
+
+  - molecule_name: "CO2_728"
+    transitions_file: "CO2/transitions_728.txt"
+    segment_file: "CO2/segment_master.txt"
+    skip_lines: 0
+    num_qns: 7
+    output_pt_file: "parsed_graphs/CO2_728_graph.pt"
+
+  - molecule_name: "CO2_838"
+    transitions_file: "CO2/transitions_838.txt"
+    segment_file: "CO2/segment_master.txt"
+    skip_lines: 0
+    num_qns: 7
+    output_pt_file: "parsed_graphs/CO2_838_graph.pt"

@@ -1,0 +1,10 @@
+__pychache/
+*.py[cod]
+
+.vscode/
+
+.ipynb_checkpoints/
+
+venv/
+.env/
+env/
