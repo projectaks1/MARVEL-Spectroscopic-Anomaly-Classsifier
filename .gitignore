@@ -9,6 +9,3 @@ venv/
 .env/
 env/
 
-analyze_parsed_graphs.py 
-marvel_gnn.py 
-marvel_gnn_v4.py
