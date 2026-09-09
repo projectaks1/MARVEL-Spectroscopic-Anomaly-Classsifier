@@ -9,7 +9,7 @@ from torch_geometric.data import Data
 
 c = 2.99792458e10
 
-unit = {
+UNIT_CONVERSION = {
     'MHz': 1e6 / c,
     'GHz': 1e9 / c,
     'THz': 1e12 / c,
@@ -17,6 +17,7 @@ unit = {
     'Hz': 1.0 / c,
     'cm-1': 1.0
 }
+unit = UNIT_CONVERSION
 
 def parse_marvel_line(line, segment_map=None, num_qns=None):
     line_str = line.strip()
@@ -25,7 +26,7 @@ def parse_marvel_line(line, segment_map=None, num_qns=None):
 
     tokens = line_str.split()
     
-    tag_idx = next((i for i, tok in enumerate(tokens) if re.search(r'[a-zA-Z].*\.\d+$', tok)), None)
+    tag_idx = next((i for i, tok in enumerate(tokens) if re.search(r'[a-zA-Z].*\.[a-zA-Z0-9_-]+$', tok)), None)
     if tag_idx is None:
         return None
     tag = tokens[tag_idx]
@@ -37,65 +38,65 @@ def parse_marvel_line(line, segment_map=None, num_qns=None):
         iso = data[idx]
         idx += 1
 
-
     if idx < len(data) and data[idx].isdigit():
         name = int(data[idx])
         idx += 1
 
-    floats = []
-    qns = []
-
-
-    for tok in data[idx:]:
-        if '.' in tok or 'e' in tok.lower():
+    if num_qns is not None and len(data) - idx >= 2 * num_qns:
+        qn_start = len(data) - 2 * num_qns
+        qn_tokens = data[qn_start:]
+        num_tokens = data[idx:qn_start]
+        upper_qn = qn_tokens[:num_qns]
+        lower_qn = qn_tokens[num_qns:]
+    else:
+        num_tokens = []
+        qn_tokens = []
+        for tok in data[idx:]:
             try:
-                floats.append((float(tok), tok))
-                continue
+                float(tok)
+                if len(num_tokens) < 2:
+                    num_tokens.append(tok)
+                else:
+                    qn_tokens.append(tok)
             except ValueError:
-                pass
-        qns.append(tok)
+                qn_tokens.append(tok)
 
-    if len(floats) < 2:
+        half = len(qn_tokens) // 2
+        upper_qn = qn_tokens[:half]
+        lower_qn = qn_tokens[half:]
+
+        if num_qns is not None:
+            if len(upper_qn) < num_qns:
+                upper_qn += [None] * (num_qns - len(upper_qn))
+            else:
+                upper_qn = upper_qn[:num_qns]
+
+            if len(lower_qn) < num_qns:
+                lower_qn += [None] * (num_qns - len(lower_qn))
+            else:
+                lower_qn = lower_qn[:num_qns]
+
+    if len(num_tokens) < 1:
         return None
 
-    abs_val_0 = abs(floats[0][0])
-    abs_val_1 = abs(floats[1][0])
-
-    if abs_val_0 >= abs_val_1:
-        v_val, v_tok = floats[0]
-        e_v_val, _ = floats[1]
-    else:
-        v_val, v_tok = floats[1]
-        e_v_val, _ = floats[0]
+    try:
+        v_val = float(num_tokens[0])
+        v_tok = num_tokens[0]
+        e_v_val = float(num_tokens[1]) if len(num_tokens) > 1 else 0.0
+    except ValueError:
+        return None
 
     v = abs(v_val)
     if v_val < 0 or v_tok.startswith('-'):
         v = -v
     e_v = abs(e_v_val)
 
-
     if segment_map and tag:
         tag_base = tag.split('.')[0]
-        unit = segment_map.get(tag_base, 'cm-1')
-        factor = unit.get(unit, 1.0)
+        unit_str = segment_map.get(tag_base, 'cm-1')
+        factor = UNIT_CONVERSION.get(unit_str, 1.0)
         v *= factor
         e_v *= factor
-
-
-    half = len(qns) // 2
-    upper_qn = qns[:half]
-    lower_qn = qns[half:]
-
-    if num_qns is not None:
-        if len(upper_qn) < num_qns:
-            upper_qn += [None] * (num_qns - len(upper_qn))
-        else:
-            upper_qn = upper_qn[:num_qns]
-
-        if len(lower_qn) < num_qns:
-            lower_qn += [None] * (num_qns - len(lower_qn))
-        else:
-            lower_qn = lower_qn[:num_qns]
 
     return {
         'Isotopologue': iso,
@@ -140,8 +141,8 @@ def build_pyg_graph(parsed_df, num_qns, molecule_name="molecule"):
     lower_cols = [f"{q}''" for q in qn_names]
 
     for i in range(num_qns):
-        parsed_df[upper_cols[i]] = parsed_df['upper_qn'].apply(lambda x: x[i] if i < len(x) else '0')
-        parsed_df[lower_cols[i]] = parsed_df['lower_qn'].apply(lambda x: x[i] if i < len(x) else '0')
+        parsed_df[upper_cols[i]] = parsed_df['upper_qn'].apply(lambda x: str(x[i]) if i < len(x) and x[i] is not None else '0')
+        parsed_df[lower_cols[i]] = parsed_df['lower_qn'].apply(lambda x: str(x[i]) if i < len(x) and x[i] is not None else '0')
 
     concat_states = pd.concat([
         parsed_df[upper_cols].rename(columns=dict(zip(upper_cols, qn_names))),

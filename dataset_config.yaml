@@ -1,44 +1,112 @@
 # MARVEL Dataset Processing Configuration
 
 datasets:
+  # --- SO Isotopologues ---
   - molecule_name: "SO_33S16O"
-    transitions_file: "Re_ SO Transitions list/SO_33S16O_22HeStLy_SO_20260731_140742.txt"
+    transitions_file: "Experimental Data/Re_ SO Transitions list/SO_33S16O_22HeStLy_SO_20260731_140742.txt"
     segment_file: null
     skip_lines: 1
     num_qns: 5
     output_pt_file: "parsed_graphs/SO_33S16O_graph.pt"
 
   - molecule_name: "SO_34S16O"
-    transitions_file: "Re_ SO Transitions list/SO_34S16O_22HeStLy_SO_20260731_140742.txt"
+    transitions_file: "Experimental Data/Re_ SO Transitions list/SO_34S16O_22HeStLy_SO_20260731_140742.txt"
     segment_file: null
     skip_lines: 1
     num_qns: 5
     output_pt_file: "parsed_graphs/SO_34S16O_graph.pt"
 
   - molecule_name: "SO_36S16O"
-    transitions_file: "Re_ SO Transitions list/SO_36S16O_22HeStLy_SO_20260731_140742.txt"
+    transitions_file: "Experimental Data/Re_ SO Transitions list/SO_36S16O_22HeStLy_SO_20260731_140742.txt"
     segment_file: null
     skip_lines: 1
     num_qns: 5
     output_pt_file: "parsed_graphs/SO_36S16O_graph.pt"
 
+  # --- CO2 Isotopologues ---
   - molecule_name: "CO2_828"
-    transitions_file: "CO2/transitions_828.txt"
-    segment_file: "CO2/segment_master.txt"
+    transitions_file: "Experimental Data/CO2/transitions_828.txt"
+    segment_file: "Experimental Data/CO2/segment_master.txt"
     skip_lines: 0
     num_qns: 7
     output_pt_file: "parsed_graphs/CO2_828_graph.pt"
 
   - molecule_name: "CO2_728"
-    transitions_file: "CO2/transitions_728.txt"
-    segment_file: "CO2/segment_master.txt"
+    transitions_file: "Experimental Data/CO2/transitions_728.txt"
+    segment_file: "Experimental Data/CO2/segment_master.txt"
     skip_lines: 0
     num_qns: 7
     output_pt_file: "parsed_graphs/CO2_728_graph.pt"
 
   - molecule_name: "CO2_838"
-    transitions_file: "CO2/transitions_838.txt"
-    segment_file: "CO2/segment_master.txt"
+    transitions_file: "Experimental Data/CO2/transitions_838.txt"
+    segment_file: "Experimental Data/CO2/segment_master.txt"
     skip_lines: 0
     num_qns: 7
     output_pt_file: "parsed_graphs/CO2_838_graph.pt"
+
+  # --- H2O Isotopologues ---
+  - molecule_name: "H2O_H217O"
+    transitions_file: "Experimental Data/H2O/transitions_H217O_2010June03.txt"
+    segment_file: null
+    skip_lines: 0
+    num_qns: 6
+    output_pt_file: "parsed_graphs/H2O_H217O_graph.pt"
+
+  - molecule_name: "H2O_H218O"
+    transitions_file: "Experimental Data/H2O/transitions_H218O_2010June03.txt"
+    segment_file: null
+    skip_lines: 0
+    num_qns: 4
+    output_pt_file: "parsed_graphs/H2O_H218O_graph.pt"
+
+  # --- HDO Isotopologues ---
+  - molecule_name: "HDO_HD16O"
+    transitions_file: "Experimental Data/HDO/transitions_HD16O_2010Jun03.txt"
+    segment_file: null
+    skip_lines: 0
+    num_qns: 6
+    output_pt_file: "parsed_graphs/HDO_HD16O_graph.pt"
+
+  - molecule_name: "HDO_HD17O"
+    transitions_file: "Experimental Data/HDO/transitions_HD17O_2010June09.txt"
+    segment_file: null
+    skip_lines: 0
+    num_qns: 4
+    output_pt_file: "parsed_graphs/HDO_HD17O_graph.pt"
+
+  - molecule_name: "HDO_HD18O"
+    transitions_file: "Experimental Data/HDO/transitions_HD18O_2010June27.txt"
+    segment_file: null
+    skip_lines: 0
+    num_qns: 4
+    output_pt_file: "parsed_graphs/HDO_HD18O_graph.pt"
+
+  # --- SO2 Isotopologues ---
+  - molecule_name: "SO2_626"
+    transitions_file: "Experimental Data/SO2/Transitions_626.txt"
+    segment_file: null
+    skip_lines: 0
+    num_qns: 6
+    output_pt_file: "parsed_graphs/SO2_626_graph.pt"
+
+  - molecule_name: "SO2_636"
+    transitions_file: "Experimental Data/SO2/Transitions_636.txt"
+    segment_file: null
+    skip_lines: 0
+    num_qns: 6
+    output_pt_file: "parsed_graphs/SO2_636_graph.pt"
+
+  - molecule_name: "SO2_646"
+    transitions_file: "Experimental Data/SO2/Transitions_646.txt"
+    segment_file: null
+    skip_lines: 0
+    num_qns: 6
+    output_pt_file: "parsed_graphs/SO2_646_graph.pt"
+
+  - molecule_name: "SO2_666"
+    transitions_file: "Experimental Data/SO2/Transitions_666.txt"
+    segment_file: null
+    skip_lines: 0
+    num_qns: 6
+    output_pt_file: "parsed_graphs/SO2_666_graph.pt"
