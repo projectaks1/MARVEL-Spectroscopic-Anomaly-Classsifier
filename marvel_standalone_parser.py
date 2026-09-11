@@ -26,7 +26,7 @@ def parse_marvel_line(line, segment_map=None, num_qns=None):
 
     tokens = line_str.split()
     
-    tag_idx = next((i for i, tok in enumerate(tokens) if re.search(r'[a-zA-Z].*\.[a-zA-Z0-9_-]+$', tok)), None)
+    tag_idx = next((i for i, tok in enumerate(tokens) if re.search(r'[a-zA-Z].*\.[a-zA-Z0-9_-]+[?]?$', tok)), None)
     if tag_idx is None:
         return None
     tag = tokens[tag_idx]
@@ -41,6 +41,10 @@ def parse_marvel_line(line, segment_map=None, num_qns=None):
     if idx < len(data) and data[idx].isdigit():
         name = int(data[idx])
         idx += 1
+
+    # Auto-detect CO2 with 7 quantum numbers if parity 'e'/'f' is present
+    if (num_qns is None or num_qns == 6) and len(data) - idx >= 17 and data[-1].lower() in ('e', 'f') and data[-8].lower() in ('e', 'f'):
+        num_qns = 7
 
     if num_qns is not None and len(data) - idx >= 2 * num_qns:
         qn_start = len(data) - 2 * num_qns
