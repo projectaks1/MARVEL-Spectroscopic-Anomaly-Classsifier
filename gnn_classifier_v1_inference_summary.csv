@@ -1,0 +1,3 @@
+Target File,Molecule,Total Transitions,Flagged (Count),Flagged (%),Mean Anom Prob,Max Anom Prob
+CO2_728_graph.pt,CO2_728,11338,141,1.24%,0.0654,0.4436
+CO2_828_graph.pt,CO2_828,11654,242,2.08%,0.0674,0.4587
